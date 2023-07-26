@@ -1,0 +1,39 @@
+{
+    "manifest_version": 3,
+    "name": "Screen Recording",
+    "description": "一个用于Web页录制视频的工具扩展。",
+    "author": "DD",
+    "version": "0.0.1",
+    "icons":{
+        "16": "imgs/logo.png",
+        "48": "imgs/logo.png",
+        "128": "imgs/logo.png"
+      },
+    "background": {
+        "service_worker": "js/background.js"
+    },
+    "action": {
+        "default_popup": "html/popup.html"
+    },
+    "permissions": [
+        "storage",
+        "cookies",
+        "scripting",
+        "tabs"
+    ],
+    "host_permissions": [
+        "http://*/*",
+        "https://*/*"
+      ],
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "js/content.js"
+            ]
+        }
+    ],
+    "options_page": "html/options.html"
+}
