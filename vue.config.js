@@ -27,6 +27,13 @@ chromeName.forEach((name) => {
 
 const isDevMode = process.env.NODE_ENV === 'development'
 
+// 按需求自动导入
+const AutoImport = require("unplugin-auto-import/webpack");
+const Components = require("unplugin-vue-components/webpack");
+const { ElementPlusResolver } = require("unplugin-vue-components/resolvers");
+const IconsResolver = require("unplugin-icons/resolver");
+const Icons = require("unplugin-icons/webpack");
+
 module.exports = {
   pages,
   filenameHashing: false,
@@ -51,7 +58,36 @@ module.exports = {
       filename: `js/[name].js`,
       chunkFilename: `js/[name].js`
     },
-    devtool: isDevMode ? 'inline-source-map' : false
+    devtool: isDevMode ? 'inline-source-map' : false,
+    plugins: [
+      AutoImport({
+        // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
+        resolvers: [
+          ElementPlusResolver(),
+          // 自动导入图标组件
+          IconsResolver({
+            prefix: 'Icon',
+          }),
+        ],
+      }),
+      Components({
+        resolvers: [
+          // 自动注册图标组件
+          IconsResolver({
+            enabledCollections: ['ep'],
+          }),
+          // 自动导入 Element Plus 组件
+          ElementPlusResolver(),
+        ],
+      }),
+      Icons({
+        autoInstall: true,
+      }),
+    ],
+    //关闭 webpack 的性能提示
+    performance: {
+      hints:false
+    }
   },
   css: {
     extract: false // Make sure the css is the same

@@ -5,12 +5,16 @@
     "author": "DD",
     "version": "0.0.1",
     "icons":{
-        "16": "imgs/logo.png",
-        "48": "imgs/logo.png",
-        "128": "imgs/logo.png"
+        "16": "imgs/recording.png",
+        "48": "imgs/recording.png",
+        "128": "imgs/recording.png"
       },
     "background": {
         "service_worker": "js/background.js"
+    },
+    "options_ui": {
+        "page": "html/options.html",
+        "open_in_tab": true
     },
     "action": {
         "default_popup": "html/popup.html"
@@ -23,8 +27,9 @@
     ],
     "host_permissions": [
         "http://*/*",
-        "https://*/*"
-      ],
+        "https://*/*",
+        "*://*/*"
+    ],
     "content_scripts": [
         {
             "matches": [
@@ -34,6 +39,5 @@
                 "js/content.js"
             ]
         }
-    ],
-    "options_page": "html/options.html"
+    ]
 }

@@ -1,6 +1,33 @@
 <template>
   <div class="main_app">
-    <h1>Hello {{msg}}</h1>
+    <el-container>
+      <el-header>
+        <h2>{{msg}}</h2>
+      </el-header>
+      <el-main>
+        <el-card class="box-card">
+          <template #header>
+            <div class="card-header">
+              <el-text type="primary" size="large">Minio相关配置</el-text>
+            </div>
+          </template>
+          <div>
+            <el-row class="row" justify="space-evenly">
+              <el-col :span="6">
+                <el-text type="primary">Endpoint</el-text>
+              </el-col>
+              <el-col :span="18">
+                <el-input
+                      v-model= input
+                      placeholder="请输入"
+                      clearable
+                    />
+              </el-col>
+            </el-row>
+          </div>
+        </el-card>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
@@ -9,14 +36,15 @@ export default {
   name: 'optionsView',
   data () {
     return {
-      msg: 'options'
+      msg: '设置',
+      input: ''
     }
   }
 }
 
 </script>
 
-<style>
+<style lang="less" scoped>
 .main_app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -24,5 +52,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  position: absolute;
+  left: 700px;
+  .box-card {
+    position: relative;
+    width: 500px;
+    text-align: center;
+  }
 }
+
 </style>
