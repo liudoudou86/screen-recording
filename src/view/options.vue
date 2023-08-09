@@ -8,13 +8,13 @@
         <el-card class="box-card">
           <template #header>
             <div class="card-header">
-              <el-text type="primary" size="large">Minio相关配置</el-text>
+              <el-text class="text" type="primary" size="large">Minio相关配置</el-text>
             </div>
           </template>
           <div>
-            <el-row class="row" justify="space-evenly">
+            <el-row class="row" :gutter="20">
               <el-col :span="6">
-                <el-text type="primary">Endpoint</el-text>
+                <el-tag class="text" size="large" type="primary" effect="plain" round>Endpoint</el-tag>
               </el-col>
               <el-col :span="18">
                 <el-input
@@ -58,6 +58,9 @@ export default {
     position: relative;
     width: 500px;
     text-align: center;
+    .text {
+      text-align: center;
+    }
   }
 }
 
