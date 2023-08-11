@@ -53,7 +53,10 @@
           </el-col>
         </el-row>
         <el-row class="row4" justify="space-evenly">
-          <el-col :span="24">
+          <el-col :span="12">
+            <el-button class="video-button" type="primary" @click="stopRecording()">结束录制</el-button>
+          </el-col>
+          <el-col :span="12">
             <el-button class="video-button" type="primary" @click="startRecording()">开始录制</el-button>
           </el-col>
         </el-row>
@@ -63,6 +66,8 @@
 </template>
 
 <script>
+import { ElMessage } from 'element-plus';
+
 export default {
   name: 'popupView',
   data () {
@@ -94,28 +99,49 @@ export default {
     startRecording() {
       console.log("audio: " + this.audio);
       console.log("video: " + this.video);
-      // 获取用户媒体设备权限
-      navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-        .then(function(stream) {
-          // 创建MediaRecorder对象
-          var mediaRecorder = new MediaRecorder(stream);
-          
-          // 监听录制数据可用事件
-          mediaRecorder.ondataavailable = function(e) {
-            // 处理录制的数据
-            // e.data即为录制的媒体数据
-            console.log(e);
-          };
-          
-          // 开始录制
-          mediaRecorder.start();
-          
-          // 在需要停止录制时调用mediaRecorder.stop();
-        })
-        .catch(function(error) {
-          // 处理获取权限失败的情况
-          console.log(error);
-        });
+      if (!this.video) {
+        ElMessage.error("需要摄像头权限!");
+      } else {
+        chrome.tabs.query(
+          // 获取当前tab
+          {
+            active: true,
+            currentWindow: true,
+          },
+          (tabs) => {
+            const message = { 
+              action: "StartRecord",
+              audio: this.audio,
+              video: {
+                width: 1920,
+                height: 1080,
+              }
+            };
+            // 与content进行通信
+            chrome.tabs.sendMessage(tabs[0].id, message, (res) => {
+              console.log(res.msg);
+            });
+          }
+        );
+      }
+    },
+    stopRecording() {
+      chrome.tabs.query(
+          // 获取当前tab
+          {
+            active: true,
+            currentWindow: true,
+          },
+          (tabs) => {
+            const message = { 
+              action: "StopRecord",
+            };
+            // 与content进行通信
+            chrome.tabs.sendMessage(tabs[0].id, message, (res) => {
+              console.log(res.msg);
+            });
+          }
+        );
     }
   }
 }
@@ -166,7 +192,7 @@ export default {
     margin-top: 60px;
     .video-button {
       height: 45px;
-      width: 270px;
+      width: 130px;
     }
   }
 }

@@ -1,1 +1,1 @@
-console.log('欢迎来到background页面')
+console.log('欢迎来到background空间!')

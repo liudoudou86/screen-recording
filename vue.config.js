@@ -72,12 +72,12 @@ module.exports = {
       }),
       Components({
         resolvers: [
+          // 自动导入 Element Plus 组件
+          ElementPlusResolver(),
           // 自动注册图标组件
           IconsResolver({
             enabledCollections: ['ep'],
           }),
-          // 自动导入 Element Plus 组件
-          ElementPlusResolver(),
         ],
       }),
       Icons({
