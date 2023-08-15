@@ -1,40 +1,62 @@
 console.log("content开始表演魔法啦~");
 
+// 视频流下载处理
 function download(chunks) {
   const blob = new Blob(chunks, {
     type: chunks[0].type,
   });
   const url = URL.createObjectURL(blob);
+  console.log("url: " + url);
   const a = document.createElement("a");
   document.body.appendChild(a);
   a.style = "display: none";
   a.href = url;
-  console.log("url: " + a.href);
-  a.download = "video.webm";
+  a.download = "screenRecording.webm";
   a.click();
   URL.revokeObjectURL(url);
 }
 
-let stream;
+// 视频流上传处理
+function upload(chunks) {
+  const blob = new Blob(chunks, {
+    type: chunks[0].type,
+  });
+  const fileName = "screenRecording.mp4";
+  const formData = new FormData;
+  // 将blob对象添加到FormData对象中
+  formData.append('file', blob, fileName);
+  console.log(formData);
+}
+
 let mediaRecorder;
 let chunks = [];
 let options = {
-  mimeType: "video/webm; codecs=vp9",
+  mimeType: "video/webm; codecs=h264",
 };
 
-chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "StartRecord") {
     navigator.mediaDevices.getDisplayMedia({
         audio: request.audio,
         video: request.video,
       })
       .then((mediaStream) => {
-        stream = mediaStream;
-        mediaRecorder = new MediaRecorder(stream, options);
+        mediaRecorder = new MediaRecorder(mediaStream, options);
+
+        // 监听视频流处理
         mediaRecorder.ondataavailable = function (e) {
           console.log(e);
           chunks.push(e.data);
         };
+
+        // 监听停止共享屏幕的按钮操作
+        mediaStream.getVideoTracks()[0].onended = () => {
+          // 停止录制
+          mediaRecorder.stop();
+          console.log("当前状态: " + mediaRecorder.state);
+        }
+
+        // 开始录制
         mediaRecorder.start();
         console.log("当前状态: " + mediaRecorder.state);
         sendResponse({
@@ -49,21 +71,18 @@ chrome.runtime.onMessage.addListener(function (request, _sender, sendResponse) {
       });
   }
 
-  if (request.action === "StopRecord") {
-    if (mediaRecorder) {
-      mediaRecorder.onstop = function () {
-        download(chunks);
-        sendResponse({
-          msg: "结束录制",
-        });
-      };
-
-      mediaRecorder.stop();
-      console.log("当前状态: " + mediaRecorder.state);
-    } else {
-      console.error("mediaRecorder对象未定义");
+  if (request.action === "download") {
+    if (request.downloadMethod === "local") {
+      download(chunks);
       sendResponse({
-        msg: "mediaRecorder对象未定义",
+        msg: "下载成功",
+      });
+    }
+
+    if (request.downloadMethod === "clound") {
+      upload(chunks);
+      sendResponse({
+        msg: "上传成功",
       });
     }
   }

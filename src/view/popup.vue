@@ -6,22 +6,24 @@
       </el-header>
       <el-main>
         <el-row class="row1" justify="space-evenly">
-          <el-col :span="12">
-            <el-button class="method-button" type="primary" plain>
-              <el-icon :size="50" class="icon">
-                <i-ep-Platform />
-              </el-icon>
-              <span class="icon-span">整个屏幕</span>
-            </el-button>
-          </el-col>
-          <el-col :span="12">
-            <el-button class="method-button" type="primary" plain>
-              <el-icon :size="50" class="icon">
-                <i-ep-Monitor />
-              </el-icon>
-              <span class="icon-span">当前页面</span>
-            </el-button>
-          </el-col>
+          <el-radio-group v-model="vedioSelect" value-key="id" size="large" @change="getRadioValue()">
+            <el-col :span="12">
+              <el-radio-button class="raido-button" label="window">
+                <el-icon class="icon" :size="80">
+                  <i-ep-Monitor />
+                </el-icon>
+                <span class="icon-span">当前页面</span>
+              </el-radio-button>
+            </el-col>
+            <el-col :span="12">
+              <el-radio-button class="raido-button" label="monitor">
+                <el-icon class="icon" :size="80">
+                  <i-ep-Platform />
+                </el-icon>
+                <span class="icon-span">整个屏幕</span>
+              </el-radio-button>
+            </el-col>
+          </el-radio-group>
         </el-row>
         <el-row class="row2" justify="space-evenly">
           <el-col :span="6">
@@ -39,9 +41,9 @@
         </el-row>
         <el-row class="row3" justify="space-evenly">
           <el-col :span="12">
-            <el-select class="select" v-model="select" placeholder="存储方式">
+            <el-select class="select" v-model="storageSelect" value-key="id" placeholder="存储方式" @change="changeStorage($event)">
               <el-option
-                v-for="item in options"
+                v-for="item in storageOptions"
                 :key="item.id"
                 :label="item.label"
                 :value="item.value"
@@ -54,7 +56,7 @@
         </el-row>
         <el-row class="row4" justify="space-evenly">
           <el-col :span="12">
-            <el-button class="video-button" type="primary" @click="stopRecording()">结束录制</el-button>
+            <el-button class="video-button" type="primary" @click="downloading()">导出处理</el-button>
           </el-col>
           <el-col :span="12">
             <el-button class="video-button" type="primary" @click="startRecording()">开始录制</el-button>
@@ -75,23 +77,38 @@ export default {
       msg: '浏览器录制器',
       audio: false,
       video: false,
-      select: '',
-      options: [
+      vedioSelect: '',
+      storageSelect: '',
+      storageOptions: [
         {
           id: 1,
           label: '本地存储',
-          value: '本地存储'
+          value: 'local'
         },
         {
           id: 2,
           label: '云端存储',
-          value: '云端存储'
+          value: 'clound'
         }
       ]
     }
   },
+  mounted() {
+    // 读取存储方式
+    this.storageSelect = window.localStorage.getItem("storageSelect");
+    this.vedioSelect = window.localStorage.getItem("vedioSelect");
+  },
   methods: {
+    getRadioValue() {
+      console.log("当前录屏方式: " + this.vedioSelect);
+      window.localStorage.setItem("vedioSelect", this.vedioSelect);
+    },
+    changeStorage(value) {
+      console.log("当前存储方式: " + value);
+      window.localStorage.setItem("storageSelect", this.storageSelect);
+    },
     goToSetting() {
+      // 跳转至设置页面
       chrome.tabs.create({ 
         url: "extension://aoijlpeikgdnfdhhlfdcjkjpbdnkjmfk/html/options.html",
       });
@@ -115,6 +132,7 @@ export default {
               video: {
                 width: 1920,
                 height: 1080,
+                displaySurface: this.vedioSelect, // monitor是整个屏幕, window是当前窗口
               }
             };
             // 与content进行通信
@@ -125,7 +143,7 @@ export default {
         );
       }
     },
-    stopRecording() {
+    downloading() {
       chrome.tabs.query(
           // 获取当前tab
           {
@@ -134,7 +152,8 @@ export default {
           },
           (tabs) => {
             const message = { 
-              action: "StopRecord",
+              action: "download",
+              downloadMethod: this.storageSelect,
             };
             // 与content进行通信
             chrome.tabs.sendMessage(tabs[0].id, message, (res) => {
@@ -161,14 +180,15 @@ export default {
   height: 100%;
   .row1 {
     margin-top: 20px;
-    .method-button {
-      height: 120px;
+    .raido-button {
       width: 130px;
-      display: flex;
-      flex-direction: column-reverse;
-      align-items: center;
       .icon-span {
-        margin-top: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .icon {
+        margin-bottom: 10px;
       }
     }
   }
