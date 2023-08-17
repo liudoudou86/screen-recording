@@ -12,6 +12,12 @@
   - 提供一键生成云端视频url跳转链接
   - 提供本地下载
 
+### 使用指南
+
+  <video width="640" height="480" controls>
+    <source src="http://101.43.247.121:9007/video/浏览器录制.mp4" type="video/mp4">
+  </video>
+
 ### 备忘录
 ```
 vue create [project name] # 创建VUE项目
