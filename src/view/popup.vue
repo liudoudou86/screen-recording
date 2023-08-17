@@ -152,7 +152,7 @@ export default {
           },
           (tabs) => {
             const message = { 
-              action: "download",
+              action: "output",
               downloadMethod: this.storageSelect,
             };
             // 与content进行通信

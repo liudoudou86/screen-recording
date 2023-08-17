@@ -1,42 +1,22 @@
 console.log("content开始表演魔法啦~");
-
-// 视频流下载处理
-function download(chunks) {
-  const blob = new Blob(chunks, {
-    type: chunks[0].type,
-  });
-  const url = URL.createObjectURL(blob);
-  console.log("url: " + url);
-  const a = document.createElement("a");
-  document.body.appendChild(a);
-  a.style = "display: none";
-  a.href = url;
-  a.download = "screenRecording.webm";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-// 视频流上传处理
-function upload(chunks) {
-  const blob = new Blob(chunks, {
-    type: chunks[0].type,
-  });
-  const fileName = "screenRecording.mp4";
-  const formData = new FormData;
-  // 将blob对象添加到FormData对象中
-  formData.append('file', blob, fileName);
-  console.log(formData);
-}
+import { downloadBlob } from "./download.js";
+// import { uploadMinio } from "./upload.js";
+import { formatDate } from "./time.js";
 
 let mediaRecorder;
 let chunks = [];
 let options = {
-  mimeType: "video/webm; codecs=h264",
+  mimeType: "video/webm; codecs=vp9",
 };
+// 定义时间及文件名
+let currentDate = new Date();
+let formattedDate = formatDate(currentDate);
+let fileName = "screenRecording_" + formattedDate + ".mp4";
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "StartRecord") {
-    navigator.mediaDevices.getDisplayMedia({
+    navigator.mediaDevices
+      .getDisplayMedia({
         audio: request.audio,
         video: request.video,
       })
@@ -54,7 +34,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           // 停止录制
           mediaRecorder.stop();
           console.log("当前状态: " + mediaRecorder.state);
-        }
+        };
 
         // 开始录制
         mediaRecorder.start();
@@ -69,18 +49,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           msg: "获取媒体流失败",
         });
       });
-  }
-
-  if (request.action === "download") {
+  } else if (request.action === "output") {
     if (request.downloadMethod === "local") {
-      download(chunks);
+      downloadBlob(chunks, fileName);
       sendResponse({
         msg: "下载成功",
       });
-    }
-
-    if (request.downloadMethod === "clound") {
-      upload(chunks);
+    } else if (request.downloadMethod === "clound") {
+      // uploadMinio(chunks, fileName, 'video');
       sendResponse({
         msg: "上传成功",
       });
