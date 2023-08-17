@@ -14,9 +14,7 @@
 
 ### 使用指南
 
-  <video width="640" height="480" controls>
-    <source src="http://101.43.247.121:9007/video/浏览器录制.mp4" type="video/mp4">
-  </video>
+  - [使用指南](http://101.43.247.121:9007/video/浏览器录制.mp4)
 
 ### 备忘录
 ```
