@@ -1,6 +1,6 @@
 console.log("content开始表演魔法啦~");
 import { downloadBlob } from "./download.js";
-// import { uploadMinio } from "./upload.js";
+import { uploadMinio } from "./upload.js";
 import { formatDate } from "./time.js";
 
 let mediaRecorder;
@@ -56,7 +56,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         msg: "下载成功",
       });
     } else if (request.downloadMethod === "clound") {
-      // uploadMinio(chunks, fileName, 'video');
+      uploadMinio(chunks, fileName, 'video');
       sendResponse({
         msg: "上传成功",
       });

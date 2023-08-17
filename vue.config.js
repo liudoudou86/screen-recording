@@ -33,6 +33,7 @@ const Components = require("unplugin-vue-components/webpack");
 const { ElementPlusResolver } = require("unplugin-vue-components/resolvers");
 const IconsResolver = require("unplugin-icons/resolver");
 const Icons = require("unplugin-icons/webpack");
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 
 module.exports = {
   pages,
@@ -83,10 +84,16 @@ module.exports = {
       Icons({
         autoInstall: true,
       }),
+      new NodePolyfillPlugin(),
     ],
     //关闭 webpack 的性能提示
     performance: {
       hints:false
+    },
+    resolve: {
+      fallback: {
+        fs: false
+      },
     }
   },
   css: {
