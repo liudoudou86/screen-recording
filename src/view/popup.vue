@@ -145,22 +145,22 @@ export default {
     },
     downloading() {
       chrome.tabs.query(
-          // 获取当前tab
-          {
-            active: true,
-            currentWindow: true,
-          },
-          (tabs) => {
-            const message = { 
-              action: "output",
-              downloadMethod: this.storageSelect,
-            };
-            // 与content进行通信
-            chrome.tabs.sendMessage(tabs[0].id, message, (res) => {
-              console.log(res.msg);
-            });
-          }
-        );
+        // 获取当前tab
+        {
+          active: true,
+          currentWindow: true,
+        },
+        (tabs) => {
+          const message = { 
+            action: "output",
+            downloadMethod: this.storageSelect,
+          };
+          // 与content进行通信
+          chrome.tabs.sendMessage(tabs[0].id, message, (res) => {
+            console.log(res.msg);
+          });
+        }
+      );
     }
   }
 }

@@ -1,6 +1,5 @@
-console.log("content开始表演魔法啦~");
+console.log("让content开始biu~ biu~");
 import { downloadBlob } from "./download.js";
-import { uploadMinio } from "./upload.js";
 import { formatDate } from "./time.js";
 
 let mediaRecorder;
@@ -49,14 +48,26 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           msg: "获取媒体流失败",
         });
       });
-  } else if (request.action === "output") {
+  } 
+  if (request.action === "output") {
     if (request.downloadMethod === "local") {
       downloadBlob(chunks, fileName);
       sendResponse({
         msg: "下载成功",
       });
-    } else if (request.downloadMethod === "clound") {
-      uploadMinio(chunks, fileName, 'video');
+    }
+    if (request.downloadMethod === "clound") {
+      // uploadMinio(chunks, fileName, 'video');
+      const message = { 
+        action: "UploadMinio",
+        chunks: chunks,
+        fileName: fileName,
+        backetName: 'video'
+      };
+      // 与background进行通信
+      chrome.runtime.sendMessage(message, (res) => {
+        console.log(res.msg);
+      });
       sendResponse({
         msg: "上传成功",
       });
