@@ -144,6 +144,7 @@ export default {
       }
     },
     downloading() {
+      console.log("storageSelect: " + this.storageSelect);
       chrome.tabs.query(
         // 获取当前tab
         {

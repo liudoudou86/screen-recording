@@ -57,7 +57,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       });
     }
     if (request.downloadMethod === "clound") {
-      // uploadMinio(chunks, fileName, 'video');
       const message = { 
         action: "UploadMinio",
         chunks: chunks,
@@ -69,7 +68,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         console.log(res.msg);
       });
       sendResponse({
-        msg: "上传成功",
+        msg: "上传成功-来自content",
       });
     }
   }

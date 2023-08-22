@@ -10,7 +10,8 @@
         "128": "imgs/recording.png"
       },
     "background": {
-        "service_worker": "js/background.js"
+        "service_worker": "js/background.js",
+        "type": "module"
     },
     "options_ui": {
         "page": "html/options.html",
