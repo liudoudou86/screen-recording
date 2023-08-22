@@ -159,6 +159,7 @@ export default {
           // 与content进行通信
           chrome.tabs.sendMessage(tabs[0].id, message, (res) => {
             console.log(res.msg);
+            ElMessage.success(res.msg);
           });
         }
       );

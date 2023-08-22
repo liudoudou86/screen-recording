@@ -10,7 +10,7 @@ let options = {
 // 定义时间及文件名
 let currentDate = new Date();
 let formattedDate = formatDate(currentDate);
-let fileName = "screenRecording_" + formattedDate + ".mp4";
+let fileName = "ScreenRecording_" + formattedDate + ".mp4";
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "StartRecord") {
@@ -68,7 +68,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         console.log(res.msg);
       });
       sendResponse({
-        msg: "上传成功-来自content",
+        msg: 'http://101.43.247.121:9007/video/' + fileName,
       });
     }
   }
