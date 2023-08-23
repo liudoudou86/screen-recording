@@ -1,8 +1,6 @@
 // 视频流下载处理
-export function downloadBlob(chunks, fileName) {
-  const blob = new Blob(chunks, {
-    type: chunks[0].type,
-  });
+export function downloadBlob(blob, fileName) {
+  console.log(blob);
   const url = URL.createObjectURL(blob);
   console.log("url: " + url);
   const a = document.createElement("a");

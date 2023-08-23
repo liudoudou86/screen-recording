@@ -48,27 +48,35 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           msg: "获取媒体流失败",
         });
       });
-  } 
+  }
   if (request.action === "output") {
+    const blob = new Blob(chunks, {
+      type: chunks[0].type,
+    });
     if (request.downloadMethod === "local") {
-      downloadBlob(chunks, fileName);
+      console.log(blob);
+      downloadBlob(blob, fileName);
       sendResponse({
         msg: "下载成功",
       });
     }
     if (request.downloadMethod === "clound") {
-      const message = { 
+      console.log(blob);
+      const message = {
         action: "UploadMinio",
-        chunks: chunks,
+        backetName: "video",
         fileName: fileName,
-        backetName: 'video'
+        blob: blob,
+        type: chunks[0].type,
+        size: chunks[0].size
       };
+
       // 与background进行通信
       chrome.runtime.sendMessage(message, (res) => {
         console.log(res.msg);
-      });
-      sendResponse({
-        msg: 'http://101.43.247.121:9007/video/' + fileName,
+        sendResponse({
+          msg: "http://101.43.247.121:9007/video/" + fileName,
+        });
       });
     }
   }
