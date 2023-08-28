@@ -1,6 +1,7 @@
 console.log("让content开始biu~ biu~");
 import { downloadBlob } from "./download.js";
 import { formatDate } from "./time.js";
+import { blobToBase64 } from "./change.js";
 
 let mediaRecorder;
 let chunks = [];
@@ -24,7 +25,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
         // 监听视频流处理
         mediaRecorder.ondataavailable = function (e) {
-          console.log(e);
+          console.log(e.data);
           chunks.push(e.data);
         };
 
@@ -66,17 +67,23 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         action: "UploadMinio",
         backetName: "video",
         fileName: fileName,
-        blob: blob,
         type: chunks[0].type,
-        size: chunks[0].size
       };
 
-      // 与background进行通信
-      chrome.runtime.sendMessage(message, (res) => {
-        console.log(res.msg);
-        sendResponse({
-          msg: "http://101.43.247.121:9007/video/" + fileName,
+      // 调用blobToBase64方法并等待Promise对象的解析
+      blobToBase64(blob).then((base64Str) => {
+        message.base64Str = base64Str;
+        console.log(base64Str);
+
+        // 与background进行通信
+        chrome.runtime.sendMessage(message, (res) => {
+          console.log(res.msg);
+          sendResponse({
+            message: "http://101.43.247.121:9007/video/" + fileName,
+          });
         });
+      }).catch((error) => {
+        console.error(error);
       });
     }
   }
