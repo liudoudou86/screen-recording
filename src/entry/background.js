@@ -1,10 +1,10 @@
-console.log("欢迎来到background的空间!");
+console.log("欢迎来到background的魔法空间!");
 import { Client } from "minio";
 import { Buffer } from "buffer";
 import { Stream } from "stream";
 import { base64ToBlob } from "./change.js";
 
-chrome.runtime.onMessage.addListener( function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "UploadMinio") {
     const minioClient = new Client({
       endPoint: "101.43.247.121", // 地址
@@ -14,9 +14,9 @@ chrome.runtime.onMessage.addListener( function (request, sender, sendResponse) {
       secretKey: "Minio@860704", // secretKey
     });
 
-    console.log(request.base64Str);
+    // console.log(request.base64Str);
     let blob = base64ToBlob(request.base64Str, request.type);
-    console.log(blob);
+    // console.log(blob);
 
     const reader = new FileReader();
     reader.readAsArrayBuffer(blob);
@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener( function (request, sender, sendResponse) {
       bufferStream.end(Buffer.from(ex.target.result));
 
       const metaData = {
-        'Content-Type': request.type
+        "Content-Type": request.type,
       };
 
       minioClient.putObject(
@@ -46,9 +46,9 @@ chrome.runtime.onMessage.addListener( function (request, sender, sendResponse) {
           }
         }
       );
-    }
-  }
+    };
 
-  // 确保异步处理完成前不关闭消息监听器
-  return true;
+    // 确保异步处理完成前不关闭消息监听器
+    return true;
+  }
 });

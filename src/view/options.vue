@@ -11,38 +11,46 @@
               <el-text class="title" type="primary" size="large">Minio相关配置</el-text>
             </div>
           </template>
-          <el-row class="row" :gutter="20">
+          <el-row class="row" :gutter="20" justify="space-between">
             <el-col :span="6">
-              <el-tag class="text" size="large" type="primary" effect="plain" round>MinIO地址</el-tag>
+              <el-tag class="text" size="large" type="primary" effect="plain" round>MinIO地址: </el-tag>
             </el-col>
             <el-col :span="18">
-              <el-input v-model="minioUrl" placeholder="请输入" clearable>
+              <el-input v-model="minioUrl" placeholder="请输入Url" @change="getUrl()" clearable>
                 <template #prepend>Http://</template>
               </el-input>
             </el-col>
           </el-row>
-          <el-row class="row" :gutter="20">
+          <el-row class="row" :gutter="20" justify="space-between">
             <el-col :span="6">
               <el-tag class="text" size="large" type="primary" effect="plain" round>端口: </el-tag>
             </el-col>
             <el-col :span="18">
-              <el-input v-model="port" placeholder="请输入" clearable></el-input>
+              <el-input v-model="port" placeholder="请输入端口" @change="getPort()" clearable></el-input>
             </el-col>
           </el-row>
-          <el-row class="row" :gutter="20">
+          <el-row class="row" :gutter="20" justify="space-between">
             <el-col :span="6">
-              <el-tag class="text" size="large" type="primary" effect="plain" round>UserName</el-tag>
+              <el-tag class="text" size="large" type="primary" effect="plain" round>用户名: </el-tag>
             </el-col>
             <el-col :span="18">
-              <el-input v-model="userName" placeholder="请输入" clearable></el-input>
+              <el-input v-model="userName" placeholder="请输入用户名" @change="getUserName()" clearable></el-input>
             </el-col>
           </el-row>
-          <el-row class="row" :gutter="20">
+          <el-row class="row" :gutter="20" justify="space-between">
             <el-col :span="6">
-              <el-tag class="text" size="large" type="primary" effect="plain" round>PassWord</el-tag>
+              <el-tag class="text" size="large" type="primary" effect="plain" round>密码: </el-tag>
             </el-col>
             <el-col :span="18">
-              <el-input v-model="passWord" placeholder="请输入" clearable></el-input>
+              <el-input v-model="passWord" type="password" placeholder="请输入密码" @change="getPassWord()" show-password clearable></el-input>
+            </el-col>
+          </el-row>
+          <el-row class="row" :gutter="20" justify="space-between">
+            <el-col :span="6">
+              <el-tag class="text" size="large" type="primary" effect="plain" round>桶名: </el-tag>
+            </el-col>
+            <el-col :span="18">
+              <el-input v-model="bucketName" placeholder="请输入密码" @change="getBucketName()" clearable></el-input>
             </el-col>
           </el-row>
         </el-card>
@@ -60,7 +68,33 @@ export default {
       minioUrl: '',
       port: '',
       userName: '',
-      passWord: ''
+      passWord: '',
+      bucketName: ''
+    }
+  },
+  mounted() {
+    // 读取存储方式
+    this.minioUrl = window.localStorage.getItem("url");
+    this.port = window.localStorage.getItem("port");
+    this.userName = window.localStorage.getItem("userName");
+    this.passWord = window.localStorage.getItem("passWord");
+    this.bucketName = window.localStorage.getItem("bucketName");
+  },
+  methods: {
+    getUrl() {
+      window.localStorage.setItem("url", this.minioUrl);
+    },
+    getPort() {
+      window.localStorage.setItem("port", this.port);
+    },
+    getUserName() {
+      window.localStorage.setItem("userName", this.userName);
+    },
+    getPassWord() {
+      window.localStorage.setItem("passWord", this.passWord);
+    },
+    getBucketName() {
+      window.localStorage.setItem("bucketName", this.bucketName);
     }
   }
 }

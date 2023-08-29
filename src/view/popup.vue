@@ -50,15 +50,15 @@
               />
             </el-select>
           </el-col>
-          <el-col :span="6" :offset="6">
+          <el-col :span="6">
+            <el-button class="setting-button" size="small" type="success" @click="downloading()" round>导出</el-button>
+          </el-col>
+          <el-col :span="6">
             <el-button class="setting-button" size="small" type="success" @click="goToSetting()" round>设置</el-button>
           </el-col>
         </el-row>
         <el-row class="row4" justify="space-evenly">
-          <el-col :span="12">
-            <el-button class="video-button" type="primary" @click="downloading()">导出处理</el-button>
-          </el-col>
-          <el-col :span="12">
+          <el-col :span="24">
             <el-button class="video-button" type="primary" @click="startRecording()">开始录制</el-button>
           </el-col>
         </el-row>
@@ -158,8 +158,8 @@ export default {
           };
           // 与content进行通信
           chrome.tabs.sendMessage(tabs[0].id, message, (res) => {
-            console.log(res.msg);
-            ElMessage.success(res.msg);
+              console.log(res.msg);
+              ElMessage.success(res.msg);
           });
         }
       );
@@ -214,7 +214,7 @@ export default {
     margin-top: 60px;
     .video-button {
       height: 45px;
-      width: 130px;
+      width: 260px;
     }
   }
 }

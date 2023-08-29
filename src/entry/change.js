@@ -15,8 +15,8 @@ export function blobToBase64(blob) {
 
 // base64转换blob对象
 export function base64ToBlob(base64, type) {
-  //base64 解码
-  let byteString = atob(btoa(base64));
+   //base64 解码
+  let byteString = atob(base64.split(',')[1]);
   //创建缓冲数组
   let arrayBuffer = new ArrayBuffer(byteString.length);
   //创建视图
