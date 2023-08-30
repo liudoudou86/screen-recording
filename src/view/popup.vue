@@ -109,9 +109,11 @@ export default {
     },
     goToSetting() {
       // 跳转至设置页面
-      chrome.tabs.create({ 
-        url: "extension://aoijlpeikgdnfdhhlfdcjkjpbdnkjmfk/html/options.html",
-      });
+      if (chrome.runtime.openOptionsPage) {
+        chrome.runtime.openOptionsPage()
+      } else {
+        window.open(chrome.runtime.getURL('options.html'))
+      }
     },
     startRecording() {
       console.log("audio: " + this.audio);
