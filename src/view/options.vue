@@ -11,9 +11,9 @@
               <el-text class="title" type="primary" size="large">Minio相关配置</el-text>
             </div>
           </template>
-          <el-row class="row" :gutter="20" justify="space-between">
+          <el-row class="row" :gutter="20">
             <el-col :span="6">
-              <el-tag class="text" size="large" type="primary" effect="plain" round>MinIO地址: </el-tag>
+              <el-tag class="text" size="large" type="primary" effect="dark" >MinIO地址: </el-tag>
             </el-col>
             <el-col :span="18">
               <el-input v-model="minioUrl" placeholder="请输入Url" @change="getUrl()" clearable>
@@ -21,33 +21,33 @@
               </el-input>
             </el-col>
           </el-row>
-          <el-row class="row" :gutter="20" justify="space-between">
+          <el-row class="row" :gutter="20">
             <el-col :span="6">
-              <el-tag class="text" size="large" type="primary" effect="plain" round>端口: </el-tag>
+              <el-tag class="text" size="large" type="primary" effect="dark" >MinIO端口: </el-tag>
             </el-col>
             <el-col :span="18">
               <el-input v-model="port" placeholder="请输入端口" @change="getPort()" clearable></el-input>
             </el-col>
           </el-row>
-          <el-row class="row" :gutter="20" justify="space-between">
+          <el-row class="row" :gutter="20">
             <el-col :span="6">
-              <el-tag class="text" size="large" type="primary" effect="plain" round>用户名: </el-tag>
+              <el-tag class="text" size="large" type="primary" effect="dark" >用户姓名: </el-tag>
             </el-col>
             <el-col :span="18">
               <el-input v-model="userName" placeholder="请输入用户名" @change="getUserName()" clearable></el-input>
             </el-col>
           </el-row>
-          <el-row class="row" :gutter="20" justify="space-between">
+          <el-row class="row" :gutter="20">
             <el-col :span="6">
-              <el-tag class="text" size="large" type="primary" effect="plain" round>密码: </el-tag>
+              <el-tag class="text" size="large" type="primary" effect="dark" >用户密码: </el-tag>
             </el-col>
             <el-col :span="18">
               <el-input v-model="passWord" type="password" placeholder="请输入密码" @change="getPassWord()" show-password clearable></el-input>
             </el-col>
           </el-row>
-          <el-row class="row" :gutter="20" justify="space-between">
+          <el-row class="row" :gutter="20">
             <el-col :span="6">
-              <el-tag class="text" size="large" type="primary" effect="plain" round>桶名: </el-tag>
+              <el-tag class="text" size="large" type="primary" effect="dark" >MinIO桶名: </el-tag>
             </el-col>
             <el-col :span="18">
               <el-input v-model="bucketName" placeholder="请输入密码" @change="getBucketName()" clearable></el-input>

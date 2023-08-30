@@ -70,12 +70,16 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       const fileNames = fileName + ".webm";
       const message = {
         action: "UploadMinio",
-        backetName: "video",
+        url: request.url,
+        port: request.port,
+        userName: request.userName,
+        passWord: request.passWord,
+        bucketName: request.bucketName,
         fileName: fileNames,
         type: chunks[0].type,
       };
-      
-      // // 调用blobToBase64方法并等待Promise对象的解析
+
+      // 调用blobToBase64方法并等待Promise对象的解析
       blobToBase64(blob)
         .then((base64Str) => {
           message.base64Str = base64Str;
@@ -84,14 +88,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           // 与background进行通信
           chrome.runtime.sendMessage(message, (res) => {
             console.log(res.msg);
-            sendResponse({
-              message: "http://101.43.247.121:9007/video/" + fileNames,
-            });
           });
         })
         .catch((error) => {
           console.error(error);
         });
+      sendResponse({
+        message: fileNames,
+      });
     }
 
     // 必须返回true，以确保sendResponse在异步操作完成前不被销毁

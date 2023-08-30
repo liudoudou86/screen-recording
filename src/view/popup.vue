@@ -51,7 +51,7 @@
             </el-select>
           </el-col>
           <el-col :span="6">
-            <el-button class="setting-button" size="small" type="success" @click="downloading()" round>导出</el-button>
+            <el-button class="setting-button" size="small" type="warning" @click="downloading()" round>导出</el-button>
           </el-col>
           <el-col :span="6">
             <el-button class="setting-button" size="small" type="success" @click="goToSetting()" round>设置</el-button>
@@ -74,7 +74,7 @@ export default {
   name: 'popupView',
   data () {
     return {
-      msg: '浏览器录制器',
+      msg: '浏览器录制',
       audio: false,
       video: false,
       vedioSelect: '',
@@ -145,6 +145,11 @@ export default {
     },
     downloading() {
       console.log("storageSelect: " + this.storageSelect);
+      const url = window.localStorage.getItem("url");
+      const port = window.localStorage.getItem("port");
+      const userName = window.localStorage.getItem("userName");
+      const passWord = window.localStorage.getItem("passWord");
+      const bucketName = window.localStorage.getItem("bucketName");
       chrome.tabs.query(
         // 获取当前tab
         {
@@ -155,11 +160,27 @@ export default {
           const message = { 
             action: "output",
             downloadMethod: this.storageSelect,
+            url: url,
+            port: port,
+            userName: userName,
+            passWord: passWord,
+            bucketName: bucketName
           };
+
           // 与content进行通信
           chrome.tabs.sendMessage(tabs[0].id, message, (res) => {
-              console.log(res.msg);
-              ElMessage.success(res.msg);
+              console.log(res.message);
+              const videoAddress = 'http://' + url + ':' + port + '/' + bucketName + '/' + res.message;
+              ElMessage.success(videoAddress);
+              // 将内容添加进系统剪贴板，完成一键复制
+              navigator.clipboard
+                .writeText(videoAddress)
+                .then(() => {
+                  console.log("复制成功");
+                })
+                .catch((err) => {
+                  console.log("复制失败" + err);
+                });
           });
         }
       );

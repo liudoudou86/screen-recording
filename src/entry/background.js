@@ -7,11 +7,11 @@ import { base64ToBlob } from "./change.js";
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "UploadMinio") {
     const minioClient = new Client({
-      endPoint: "101.43.247.121", // 地址
-      port: 9007, // 端口号
+      endPoint: request.url, // 地址
+      port: Number(request.port), // 端口号
       useSSL: false, // 是否使用ssl
-      accessKey: "admin", // 登录的accessKey
-      secretKey: "Minio@860704", // secretKey
+      accessKey: request.userName, // 登录的accessKey
+      secretKey: request.passWord, // secretKey
     });
 
     // console.log(request.base64Str);
@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       };
 
       minioClient.putObject(
-        request.backetName,
+        request.bucketName,
         request.fileName,
         bufferStream,
         metaData,
