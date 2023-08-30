@@ -33,12 +33,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         mediaStream.getVideoTracks()[0].onended = () => {
           // 停止录制
           mediaRecorder.stop();
-          console.log("当前状态: " + mediaRecorder.state);
+          console.log("当前状态: ", mediaRecorder.state);
         };
 
         // 开始录制
         mediaRecorder.start();
-        console.log("当前状态: " + mediaRecorder.state);
+        console.log("当前状态: ", mediaRecorder.state);
         sendResponse({
           msg: "开始录制",
         });

@@ -100,11 +100,11 @@ export default {
   },
   methods: {
     getRadioValue() {
-      console.log("当前录屏方式: " + this.vedioSelect);
+      console.log("当前录屏方式: ", this.vedioSelect);
       window.localStorage.setItem("vedioSelect", this.vedioSelect);
     },
     changeStorage(value) {
-      console.log("当前存储方式: " + value);
+      console.log("当前存储方式: ", value);
       window.localStorage.setItem("storageSelect", this.storageSelect);
     },
     goToSetting() {
@@ -116,8 +116,8 @@ export default {
       }
     },
     startRecording() {
-      console.log("audio: " + this.audio);
-      console.log("video: " + this.video);
+      console.log("audio: ", this.audio);
+      console.log("video: ", this.video);
       if (!this.video) {
         ElMessage.error("需要摄像头权限!");
       } else {
@@ -146,7 +146,7 @@ export default {
       }
     },
     downloading() {
-      console.log("storageSelect: " + this.storageSelect);
+      console.log("storageSelect: ", this.storageSelect);
       const url = window.localStorage.getItem("url");
       const port = window.localStorage.getItem("port");
       const userName = window.localStorage.getItem("userName");
@@ -172,7 +172,8 @@ export default {
           // 与content进行通信
           chrome.tabs.sendMessage(tabs[0].id, message, (res) => {
               console.log(res.message);
-              const videoAddress = 'http://' + url + ':' + port + '/' + bucketName + '/' + res.message;
+              // 优化拼接url的写法
+              const videoAddress = 'http://'.concat(url, ':').concat(port, '/').concat(bucketName, '/').concat(res.message);
               ElMessage.success(videoAddress);
               // 将内容添加进系统剪贴板，完成一键复制
               navigator.clipboard
@@ -181,7 +182,7 @@ export default {
                   console.log("复制成功");
                 })
                 .catch((err) => {
-                  console.log("复制失败" + err);
+                  console.log("复制失败: ", err);
                 });
           });
         }
