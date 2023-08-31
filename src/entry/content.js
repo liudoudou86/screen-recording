@@ -8,10 +8,6 @@ let chunks = [];
 let options = {
   mimeType: "video/webm;codecs=vp9",
 };
-// 定义时间及文件名
-let currentDate = new Date();
-let formattedDate = formatDate(currentDate);
-let fileName = "ScreenRecording_" + formattedDate;
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "StartRecord") {
@@ -57,9 +53,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     const blob = new Blob(chunks, {
       type: chunks[0].type,
     });
+    // 定义时间及文件名
+    const currentDate = new Date();
     if (request.downloadMethod === "local") {
       // console.log(blob);
-      const fileNames = fileName + ".mp4";
+      const fileNames = "ScreenRecording_".concat(formatDate(currentDate), '.mp4');
       downloadBlob(blob, fileNames);
       sendResponse({
         msg: "下载成功",
@@ -67,7 +65,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
     if (request.downloadMethod === "clound") {
       // console.log(blob);
-      const fileNames = fileName + ".webm";
+      const fileNames = "ScreenRecording_".concat(formatDate(currentDate), '.webm');
       const message = {
         action: "UploadMinio",
         url: request.url,
