@@ -50,7 +50,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     return true;
   }
   if (request.action === "output") {
-    const blob = new Blob(chunks, {
+    let blob = new Blob(chunks, {
       type: chunks[0].type,
     });
     // 定义时间及文件名
@@ -62,6 +62,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       sendResponse({
         msg: "下载成功",
       });
+
+      // blob对象垃圾回收
+      blob = null;
     }
     if (request.downloadMethod === "clound") {
       // console.log(blob);
@@ -94,6 +97,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       sendResponse({
         message: fileNames,
       });
+
+      // blob对象垃圾回收
+      blob = null;
     }
 
     // 必须返回true，以确保sendResponse在异步操作完成前不被销毁
