@@ -160,7 +160,7 @@ export default {
         },
         (tabs) => {
           const message = { 
-            action: "output",
+            action: "Output",
             downloadMethod: this.storageSelect,
             url: url,
             port: port,
@@ -172,18 +172,20 @@ export default {
           // 与content进行通信
           chrome.tabs.sendMessage(tabs[0].id, message, (res) => {
               console.log(res.message);
-              // 优化拼接url的写法
-              const videoAddress = 'http://'.concat(url, ':').concat(port, '/').concat(bucketName, '/').concat(res.message);
-              ElMessage.success(videoAddress);
-              // 将内容添加进系统剪贴板，完成一键复制
-              navigator.clipboard
-                .writeText(videoAddress)
-                .then(() => {
-                  console.log("复制成功");
-                })
-                .catch((err) => {
-                  console.log("复制失败: ", err);
-                });
+              if (this.storageSelect === "clound") {
+                // 优化拼接url的写法
+                const videoAddress = 'http://'.concat(url, ':').concat(port, '/').concat(bucketName, '/').concat(res.message);
+                ElMessage.success(videoAddress);
+                // 将内容添加进系统剪贴板，完成一键复制
+                navigator.clipboard
+                  .writeText(videoAddress)
+                  .then(() => {
+                    console.log("复制成功");
+                  })
+                  .catch((err) => {
+                    console.log("复制失败: ", err);
+                  });
+              }
           });
         }
       );

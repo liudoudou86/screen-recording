@@ -49,7 +49,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     // 必须返回true，以确保sendResponse在异步操作完成前不被销毁
     return true;
   }
-  if (request.action === "output") {
+  if (request.action === "Output") {
     let blob = new Blob(chunks, {
       type: chunks[0].type,
     });
