@@ -6,13 +6,18 @@
       </el-header>
       <el-main>
         <el-row class="row1" justify="space-evenly">
-          <el-radio-group v-model="vedioSelect" value-key="id" size="large" @change="getRadioValue()">
+          <el-radio-group
+            v-model="vedioSelect"
+            value-key="id"
+            size="large"
+            @change="getRadioValue()"
+          >
             <el-col :span="12">
               <el-radio-button class="raido-button" label="window">
                 <el-icon class="icon" :size="80">
                   <i-ep-Monitor />
                 </el-icon>
-                <span class="icon-span">当前页面</span>
+                <span class="icon-span">当前窗口</span>
               </el-radio-button>
             </el-col>
             <el-col :span="12">
@@ -27,21 +32,55 @@
         </el-row>
         <el-row class="row2" justify="space-evenly">
           <el-col :span="6">
-            <el-tag class="text" size="large" type="primary" effect="plain" round>麦克风</el-tag>
+            <el-tag
+              class="text"
+              size="large"
+              type="primary"
+              effect="plain"
+              round
+              >麦克风</el-tag
+            >
           </el-col>
           <el-col :span="6">
-            <el-switch class="switch" v-model="audio" size="large" inline-prompt active-text="开" inactive-text="关" />
+            <el-switch
+              class="switch"
+              v-model="audio"
+              size="large"
+              inline-prompt
+              active-text="开"
+              inactive-text="关"
+            />
           </el-col>
           <el-col :span="6">
-            <el-tag class="text" size="large" type="primary" effect="plain" round>摄像头</el-tag>
+            <el-tag
+              class="text"
+              size="large"
+              type="primary"
+              effect="plain"
+              round
+              >摄像头</el-tag
+            >
           </el-col>
           <el-col :span="6">
-            <el-switch class="switch" v-model="video" size="large" inline-prompt active-text="开" inactive-text="关" />
+            <el-switch
+              class="switch"
+              v-model="video"
+              size="large"
+              inline-prompt
+              active-text="开"
+              inactive-text="关"
+            />
           </el-col>
         </el-row>
         <el-row class="row3" justify="space-evenly">
           <el-col :span="12">
-            <el-select class="select" v-model="storageSelect" value-key="id" placeholder="存储方式" @change="changeStorage($event)">
+            <el-select
+              class="select"
+              v-model="storageSelect"
+              value-key="id"
+              placeholder="存储方式"
+              @change="changeStorage($event)"
+            >
               <el-option
                 v-for="item in storageOptions"
                 :key="item.id"
@@ -51,15 +90,34 @@
             </el-select>
           </el-col>
           <el-col :span="6">
-            <el-button class="setting-button" size="small" type="warning" @click="downloading()" round>导出</el-button>
+            <el-button
+              class="setting-button"
+              size="small"
+              type="warning"
+              @click="downloading()"
+              round
+              >导出</el-button
+            >
           </el-col>
           <el-col :span="6">
-            <el-button class="setting-button" size="small" type="success" @click="goToSetting()" round>设置</el-button>
+            <el-button
+              class="setting-button"
+              size="small"
+              type="success"
+              @click="goToSetting()"
+              round
+              >设置</el-button
+            >
           </el-col>
         </el-row>
         <el-row class="row4" justify="space-evenly">
           <el-col :span="24">
-            <el-button class="video-button" type="primary" @click="startRecording()">开始录制</el-button>
+            <el-button
+              class="video-button"
+              type="primary"
+              @click="startRecording()"
+              >开始录制</el-button
+            >
           </el-col>
         </el-row>
       </el-main>
@@ -68,30 +126,30 @@
 </template>
 
 <script>
-import { ElMessage } from 'element-plus';
+import { ElMessage } from "element-plus";
 
 export default {
-  name: 'popupView',
-  data () {
+  name: "popupView",
+  data() {
     return {
-      msg: '浏览器录制',
+      msg: "浏览器录制",
       audio: false,
       video: false,
-      vedioSelect: '',
-      storageSelect: '',
+      vedioSelect: "",
+      storageSelect: "",
       storageOptions: [
         {
           id: 1,
-          label: '本地存储',
-          value: 'local'
+          label: "本地存储",
+          value: "local",
         },
         {
           id: 2,
-          label: '云端存储',
-          value: 'clound'
-        }
-      ]
-    }
+          label: "云端存储",
+          value: "clound",
+        },
+      ],
+    };
   },
   mounted() {
     // 读取存储方式
@@ -110,9 +168,9 @@ export default {
     goToSetting() {
       // 跳转至设置页面
       if (chrome.runtime.openOptionsPage) {
-        chrome.runtime.openOptionsPage()
+        chrome.runtime.openOptionsPage();
       } else {
-        window.open(chrome.runtime.getURL('options.html'))
+        window.open(chrome.runtime.getURL("options.html"));
       }
     },
     startRecording() {
@@ -128,14 +186,14 @@ export default {
             currentWindow: true,
           },
           (tabs) => {
-            const message = { 
+            const message = {
               action: "StartRecord",
               audio: this.audio,
               video: {
                 width: 1920,
                 height: 1080,
                 displaySurface: this.vedioSelect, // monitor是整个屏幕, window是当前窗口
-              }
+              },
             };
             // 与content进行通信
             chrome.tabs.sendMessage(tabs[0].id, message, (res) => {
@@ -159,45 +217,48 @@ export default {
           currentWindow: true,
         },
         (tabs) => {
-          const message = { 
+          const message = {
             action: "Output",
             downloadMethod: this.storageSelect,
             url: url,
             port: port,
             userName: userName,
             passWord: passWord,
-            bucketName: bucketName
+            bucketName: bucketName,
           };
 
           // 与content进行通信
           chrome.tabs.sendMessage(tabs[0].id, message, (res) => {
-              console.log(res.message);
-              if (this.storageSelect === "clound") {
-                // 优化拼接url的写法
-                const videoAddress = 'http://'.concat(url, ':').concat(port, '/').concat(bucketName, '/').concat(res.message);
-                ElMessage.success(videoAddress);
-                // 将内容添加进系统剪贴板，完成一键复制
-                navigator.clipboard
-                  .writeText(videoAddress)
-                  .then(() => {
-                    console.log("复制成功");
-                  })
-                  .catch((err) => {
-                    console.log("复制失败: ", err);
-                  });
-              }
+            console.log(res.message);
+            if (this.storageSelect === "clound") {
+              // 优化拼接url的写法
+              const videoAddress = "http://"
+                .concat(url, ":")
+                .concat(port, "/")
+                .concat(bucketName, "/")
+                .concat(res.message);
+              ElMessage.success(videoAddress);
+              // 将内容添加进系统剪贴板，完成一键复制
+              navigator.clipboard
+                .writeText(videoAddress)
+                .then(() => {
+                  console.log("复制成功");
+                })
+                .catch((err) => {
+                  console.log("复制失败: ", err);
+                });
+            }
           });
         }
       );
-    }
-  }
-}
-
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
 .main_app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

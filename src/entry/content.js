@@ -11,6 +11,7 @@ let options = {
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "StartRecord") {
+    chunks = [];
     navigator.mediaDevices
       .getDisplayMedia({
         audio: request.audio,
@@ -57,7 +58,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     const currentDate = new Date();
     if (request.downloadMethod === "local") {
       // console.log(blob);
-      const fileNames = "ScreenRecording_".concat(formatDate(currentDate), '.mp4');
+      const fileNames = "ScreenRecording_".concat(
+        formatDate(currentDate),
+        ".mp4"
+      );
       downloadBlob(blob, fileNames);
       sendResponse({
         msg: "下载成功",
@@ -68,7 +72,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     }
     if (request.downloadMethod === "clound") {
       // console.log(blob);
-      const fileNames = "ScreenRecording_".concat(formatDate(currentDate), '.webm');
+      const fileNames = "ScreenRecording_".concat(
+        formatDate(currentDate),
+        ".webm"
+      );
       const message = {
         action: "UploadMinio",
         url: request.url,
