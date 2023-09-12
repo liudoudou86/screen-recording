@@ -4,6 +4,7 @@ import { Buffer } from "buffer";
 import { Stream } from "stream";
 import { base64ToBlob } from "./change.js";
 
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "UploadMinio") {
     const minioClient = new Client({
@@ -51,4 +52,5 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     // 确保异步处理完成前不关闭消息监听器
     return true;
   }
+
 });
