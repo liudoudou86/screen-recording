@@ -193,7 +193,7 @@ export default {
                 width: window.screen.width,
                 height: window.screen.height,
                 cursor: "always",
-                displaySurface: this.vedioSelect, // monitor是整个屏幕, window是当前窗口
+                displaySurface: this.vedioSelect,
               },
             };
             // 与content进行通信

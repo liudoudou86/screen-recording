@@ -1,44 +1,31 @@
 {
-    "manifest_version": 3,
-    "name": "Screen Recording",
-    "description": "一个用于Web页录制视频的工具扩展。",
-    "author": "DD",
-    "version": "1.0.0",
-    "icons":{
-        "16": "imgs/recording.png",
-        "48": "imgs/recording.png",
-        "128": "imgs/recording.png"
-      },
-    "background": {
-        "service_worker": "js/background.js",
-        "type": "module"
-    },
-    "options_ui": {
-        "page": "html/options.html",
-        "open_in_tab": true
-    },
-    "action": {
-        "default_popup": "html/popup.html"
-    },
-    "permissions": [
-        "storage",
-        "cookies",
-        "scripting",
-        "tabs"
-    ],
-    "host_permissions": [
-        "http://*/*",
-        "https://*/*",
-        "*://*/*"
-    ],
-    "content_scripts": [
-        {
-            "matches": [
-                "<all_urls>"
-            ],
-            "js": [
-                "js/content.js"
-            ]
-        }
-    ]
+  "manifest_version": 3,
+  "name": "Screen Recording",
+  "description": "一个用于Web页录制视频的工具扩展。",
+  "author": "DD",
+  "version": "1.0.0",
+  "icons": {
+    "16": "imgs/recording.png",
+    "48": "imgs/recording.png",
+    "128": "imgs/recording.png"
+  },
+  "background": {
+    "service_worker": "js/background.js",
+    "type": "module"
+  },
+  "options_ui": {
+    "page": "html/options.html",
+    "open_in_tab": true
+  },
+  "action": {
+    "default_popup": "html/popup.html"
+  },
+  "permissions": ["storage", "cookies", "scripting", "tabs"],
+  "host_permissions": ["http://*/*", "https://*/*", "*://*/*"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["js/content.js"]
+    }
+  ]
 }
