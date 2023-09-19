@@ -13,11 +13,11 @@
             @change="getRadioValue()"
           >
             <el-col :span="12">
-              <el-radio-button class="raido-button" label="window">
+              <el-radio-button class="raido-button" label="application">
                 <el-icon class="icon" :size="80">
                   <i-ep-Monitor />
                 </el-icon>
-                <span class="icon-span">当前窗口</span>
+                <span class="icon-span">标签</span>
               </el-radio-button>
             </el-col>
             <el-col :span="12">
@@ -25,7 +25,7 @@
                 <el-icon class="icon" :size="80">
                   <i-ep-Platform />
                 </el-icon>
-                <span class="icon-span">整个屏幕</span>
+                <span class="icon-span">桌面</span>
               </el-radio-button>
             </el-col>
           </el-radio-group>
@@ -190,8 +190,9 @@ export default {
               action: "StartRecord",
               audio: this.audio,
               video: {
-                width: 1920,
-                height: 1080,
+                width: window.screen.width,
+                height: window.screen.height,
+                cursor: "always",
                 displaySurface: this.vedioSelect, // monitor是整个屏幕, window是当前窗口
               },
             };
