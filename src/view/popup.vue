@@ -79,7 +79,7 @@
               v-model="storageSelect"
               value-key="id"
               placeholder="存储方式"
-              @change="changeStorage($event)"
+              @change="changeStorage()"
             >
               <el-option
                 v-for="item in storageOptions"
@@ -161,8 +161,8 @@ export default {
       console.log("当前录屏方式: ", this.vedioSelect);
       window.localStorage.setItem("vedioSelect", this.vedioSelect);
     },
-    changeStorage(value) {
-      console.log("当前存储方式: ", value);
+    changeStorage() {
+      console.log("当前存储方式: ", this.storageSelect);
       window.localStorage.setItem("storageSelect", this.storageSelect);
     },
     goToSetting() {
