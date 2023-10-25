@@ -1,4 +1,8 @@
-// 视频流下载处理
+/**
+ * 视频流下载
+ * @param {*} blob blob对象
+ * @param {*} fileName 文件名
+ */
 export function downloadBlob(blob, fileName) {
   console.log(blob);
   const url = URL.createObjectURL(blob);

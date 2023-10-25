@@ -1,4 +1,10 @@
-// 录制操作
+/**
+ * 视频流录制
+ * @param {*} request
+ * @param {*} mediaRecorder
+ * @param {*} options
+ * @param {*} chunks
+ */
 export function recording(request, mediaRecorder, options, chunks) {
   navigator.mediaDevices
     .getDisplayMedia({

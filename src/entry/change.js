@@ -1,4 +1,8 @@
-// blob对象转换base64
+/**
+ * blob对象转换base64
+ * @param {*} blob blob对象
+ * @returns
+ */
 export function blobToBase64(blob) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -12,7 +16,12 @@ export function blobToBase64(blob) {
   });
 }
 
-// base64转换blob对象
+/**
+ * base64转换blob对象
+ * @param {*} base64 base64对象
+ * @param {*} type type类型
+ * @returns
+ */
 export function base64ToBlob(base64, type) {
   //base64 解码
   let byteString = atob(base64.split(",")[1]);

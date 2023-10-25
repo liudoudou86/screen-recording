@@ -1,4 +1,8 @@
-// 获取当前时间
+/**
+ * 日期格式化
+ * @param {*} date 日期
+ * @returns
+ */
 export function formatDate(date) {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
