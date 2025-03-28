@@ -3,7 +3,7 @@
   "name": "Screen Recording",
   "description": "一个用于Web页录制视频的工具扩展。",
   "author": "DD",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "icons": {
     "16": "imgs/recording.png",
     "48": "imgs/recording.png",

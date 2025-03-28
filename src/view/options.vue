@@ -50,7 +50,7 @@
               <el-tag class="text" size="large" type="primary" effect="dark" >MinIO桶名: </el-tag>
             </el-col>
             <el-col :span="18">
-              <el-input v-model="bucketName" placeholder="请输入密码" @change="getBucketName()" clearable></el-input>
+              <el-input v-model="bucketName" placeholder="请输入桶名" @change="getBucketName()" clearable></el-input>
             </el-col>
           </el-row>
         </el-card>
@@ -108,20 +108,74 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
-  position: absolute;
-  left: 650px;
+  overflow: hidden; // 修改为 hidden，处理所有方向的溢出
+  width: 100%; // 添加宽度限制
+  margin: 0; // 确保没有额外边距
+  
+  :deep(.el-header) {
+    margin-top: 50px;  /* 调整这个值来改变距离 */
+    padding-top: 0;
+  }
+
+  .el-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto; // 添加水平居中
+  }
+  
+  .el-main {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    width: 100%; // 添加宽度限制
+    overflow: visible; // 防止内容被裁剪
+  }
+  
   .box-card {
-    position: relative;
-    width: 500px;
+    width: 100%; // 修改为100%
+    max-width: 500px; // 增加一点最大宽度
+    margin: 0 auto;
     text-align: center;
-    .title {
-      text-align: center;
+
+    :deep(.el-input) {
+      width: 100%;
+      
+      .el-input__wrapper {
+        width: 100%;
+        box-sizing: border-box;
+      }
     }
+
+    .el-col {
+      text-align: left;
+      padding: 0 10px;  // 添加统一的左右内边距
+      
+      &:first-child {
+        flex: 0 0 auto;
+        padding-left: 0;  // 左侧不需要额外内边距
+      }
+
+      &:last-child {
+        flex: 1;
+        max-width: calc(100% - 20px);
+        padding-right: 0;  // 右侧不需要额外内边距
+      }
+    }
+    
     .row {
+      margin: 15px 0;  // 修改为上下边距，左右边距设为0
+      width: 100%;     // 改为100%宽度
+      display: flex;
+      align-items: center;
+      padding: 0 10px; // 添加统一的左右内边距
+    }
+    :deep(.el-header) {
+      margin-top: 300px;  /* 调整这个值来改变距离 */
+      padding-top: 0;
+    }
+    &:first-child {
       margin-top: 10px;
     }
   }
 }
-
 </style>
