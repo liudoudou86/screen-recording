@@ -93,7 +93,7 @@
             <el-button
               class="setting-button"
               size="small"
-              type="warning"
+              type="success"
               @click="downloading()"
               round
               >导出</el-button
@@ -103,7 +103,7 @@
             <el-button
               class="setting-button"
               size="small"
-              type="success"
+              type="info"
               @click="goToSetting()"
               round
               >设置</el-button
@@ -114,9 +114,9 @@
           <el-col :span="24">
             <el-button
               class="video-button"
-              type="primary"
+              type="danger"
               @click="startRecording()"
-              >开始录制</el-button
+              >录制</el-button
             >
           </el-col>
         </el-row>
